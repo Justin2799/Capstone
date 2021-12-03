@@ -1,7 +1,7 @@
-/* (A) FONT */
+/*font*/
 html, body { font-family: arial, sans-serif; }
 
-/* (B) PERIOD SELECTOR */
+/*period*/
 #calPeriod input, #calPeriod select {
   font-size: 1.2em;
   border: 0;
@@ -11,7 +11,7 @@ html, body { font-family: arial, sans-serif; }
 #calmonth { width: 180px; background-color:#94abbd }
 #calyear { width: 100px; text-align: center; background-color:#94abbd }
 
-/* (C) CALENDAR */
+/*calendar*/
 #calwrap {
   display: flex;
   flex-wrap: wrap;
@@ -45,7 +45,7 @@ html, body { font-family: arial, sans-serif; }
 }
 .calninja { display: none; }
 
-/* (D) EVENT FORM */
+/*events*/
 #calblock {
   position: fixed;
   top: 0; left: 0;
