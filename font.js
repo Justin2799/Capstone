@@ -7,7 +7,7 @@ $(function () {
     initialSizes = {},
     fontSizeSetting = parseFloat(localStorage.getItem('codepenFontSizeSetting'));
 
-  // These are all the CSS selectors for things we want to scale.
+ /*css elements to change*/
   let selectorsToScale = [
     'p',
     'button',
@@ -19,7 +19,7 @@ $(function () {
     'body'
   ];
 
-  // Get initial font sizes.
+  /*get initial font sizes*/
   for (const selector of selectorsToScale) {
     let fontSize = $(selector).css('font-size');
 
@@ -32,29 +32,29 @@ $(function () {
     initialSizes[selector] = fontSize;
   }
 
-  // If the user previously changed font size, resize text. For page loads and new browsing sessions.
+  /*saves changes to webpage*/
   if (fontSizeSetting) {
     setFontSizes(fontSizeSetting);
   } else {
     fontSizeSetting = 100.0;
   }
 
-  // Toggle visibility of controls.
+  /*toggle visibility*/
   trigger.click(function () {
     toggle.toggleClass('expanded');
   });
 
-  // Increase font sizes.
+  /*increase font sizes*/
   incBtn.click(function () {
     changeFontSizes('up');
   });
 
-  // Decrease font sizes.
+  /*decrease font sizes*/
   decBtn.click(function () {
     changeFontSizes('down');
   });
 
-  // Handler for increase/decrease buttons.
+  /*increase/decrease buttons*/
   function changeFontSizes(direction) {
     if (direction === 'down') {
       fontSizeSetting -= 10;
@@ -65,7 +65,7 @@ $(function () {
     setFontSizes(fontSizeSetting);
   }
 
-  // Set font sizes based on provided scale factor.
+  /*set font sizes*/
   function setFontSizes(setting) {
     const resizeFactor = setting / 100.0;
 
