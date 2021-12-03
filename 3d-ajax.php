@@ -1,24 +1,23 @@
 <?php
-// (A) INVALID AJAX REQUEST
+/*invalid ajax*/
 if ( !isset( $_POST[ 'req' ] ) ) {
   die( "INVALID REQUEST" );
 }
 require "2-cal-core.php";
 switch ( $_POST[ 'req' ] ) {
-  // (B) DRAW CALENDAR FOR MONTH
+  /*draw calendar*/
   case "draw":
-    // (B1) DATE RANGE CALCULATIONS
-    // NUMBER OF DAYS IN MONTH
+    /*date*/
     $daysInMonth = cal_days_in_month( CAL_GREGORIAN, $_POST[ 'month' ], $_POST[ 'year' ] );
-    // FIRST & LAST DAY OF MONTH
+    /*first/last day of the month*/
     $dateFirst = "{$_POST['year']}-{$_POST['month']}-01";
     $dateLast = "{$_POST['year']}-{$_POST['month']}-{$daysInMonth}";
-    // DAY OF WEEK - NOTE 0 IS SUNDAY
+    /*days of the week*/
     $dayFirst = ( new DateTime( $dateFirst ) )->format( "w" );
     $dayLast = ( new DateTime( $dateLast ) )->format( "w" );
 
-    // (B2) DAY NAMES
-    $sunFirst = true; // CHANGE THIS IF YOU WANT MON FIRST
+    /*day names*/
+    $sunFirst = true;
     $days = [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
     if ( $sunFirst ) {
       array_unshift( $days, "Sun" );
@@ -30,7 +29,7 @@ switch ( $_POST[ 'req' ] ) {
     }
     unset( $days );
 
-    // (B3) PAD EMPTY SQUARES BEFORE FIRST DAY OF MONTH
+    /*pad empty sqaures at the end of the month*/
     if ( $sunFirst ) {
       $pad = $dayFirst;
     } else {
@@ -40,7 +39,7 @@ switch ( $_POST[ 'req' ] ) {
       echo "<div class='calsq blank'></div>";
     }
 
-    // (B4) DRAW DAYS IN MONTH
+    /*drawing days of the month*/
     $events = $CAL->get( $_POST[ 'month' ], $_POST[ 'year' ] );
     $nowMonth = date( "n" );
     $nowYear = date( "Y" );
@@ -67,7 +66,7 @@ switch ( $_POST[ 'req' ] ) {
 <?php
 }
 
-// (B5) PAD EMPTY SQUARES AFTER LAST DAY OF MONTH
+/*padding empty squares*/
 if ( $sunFirst ) {
   $pad = $dayLast == 0 ? 6 : 6 - $dayLast;
 } else {
@@ -78,7 +77,7 @@ for ( $i = 0; $i < $pad; $i++ ) {
 }
 break;
 
-// (C) SAVE EVENT
+/*save event*/
 case "save":
   echo $CAL->save(
     $_POST[ 'start' ], $_POST[ 'end' ], $_POST[ 'txt' ], $_POST[ 'color' ], $_POST[ 'time' ],
@@ -86,7 +85,7 @@ case "save":
   ) ? "OK" : $CAL->error;
   break;
 
-  // (D) DELETE EVENT
+  /*delete event*/
 case "del":
   echo $CAL->del( $_POST[ 'eid' ] ) ? "OK" : $CAL->error;
   break;
