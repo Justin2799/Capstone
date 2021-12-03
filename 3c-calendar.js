@@ -1,5 +1,5 @@
 var cal = {
-  // (A) SUPPORT FUNCTION - AJAX CALL
+  /*ajax call*/
   ajax: function (data, load) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "3d-ajax.php");
@@ -9,7 +9,7 @@ var cal = {
     xhr.send(data);
   },
 
-  // (B) ON PAGE LOAD - ATTACH LISTENERS + DRAW
+  /*on page load*/
   init: function () {
     document.getElementById("calmonth").addEventListener("change", cal.draw);
     document.getElementById("calyear").addEventListener("change", cal.draw);
@@ -19,15 +19,15 @@ var cal = {
     cal.draw();
   },
 
-  // (C) DRAW CALENDAR
+  /*calendar*/
   draw: function () {
-    // (C1) FORM DATA
+    /*form data*/
     let data = new FormData();
     data.append("req", "draw");
     data.append("month", document.getElementById("calmonth").value);
     data.append("year", document.getElementById("calyear").value);
 
-    // (C2) ATTACH CLICK TO UPDATE EVENT ON AJAX LOAD
+    /*onclick event*/
     cal.ajax(data, function () {
       let wrapper = document.getElementById("calwrap");
       wrapper.innerHTML = this.response;
@@ -44,10 +44,10 @@ var cal = {
     });
   },
 
-  // (D) SHOW EVENT DOCKET
+  /*show event*/
   show: function (evt) {
     let eid = this.getAttribute("data-eid");
-    // (D1) ADD NEW EVENT
+    /*add event*/
     if (eid === null) {
       let year = document.getElementById("calyear").value,
         month = document.getElementById("calmonth").value,
@@ -66,7 +66,7 @@ var cal = {
       document.getElementById("calformdel").style.display = "none";
     }
 
-    // (D2) EDIT EVENT
+    /*edit event*/
     else {
       let edata = JSON.parse(document.getElementById("evt" + eid).innerHTML);
       document.getElementById("evtid").value = eid;
@@ -78,19 +78,19 @@ var cal = {
       document.getElementById("calformdel").style.display = "block";
     }
 
-    // (D3) SHOW DOCKET
+    /*show*/
     document.getElementById("calblock").classList.add("show");
     evt.stopPropagation();
   },
 
-  // (E) HIDE EVENT DOCKET
+  /*hide*/
   hide: function () {
     document.getElementById("calblock").classList.remove("show");
   },
 
-  // (F) SAVE EVENT
+  /*save*/
   save: function (evt) {
-    // (F1) FORM DATA
+    /*form data*/
     let data = new FormData(),
       eid = document.getElementById("evtid").value;
     data.append("req", "save");
@@ -103,7 +103,7 @@ var cal = {
       data.append("eid", eid);
     }
 
-    // (F2) AJAX SAVE
+    /*ajax save*/
     cal.ajax(data, function () {
       if (this.response == "OK") {
         cal.hide();
@@ -115,7 +115,7 @@ var cal = {
     evt.preventDefault();
   },
 
-  // (G) DELETE EVENT
+  /*delete event*/
   del: function () {
     if (confirm("Delete Event?")) {
       // (G1) FORM DATA
@@ -123,7 +123,7 @@ var cal = {
       data.append("req", "del");
       data.append("eid", document.getElementById("evtid").value);
 
-      // (G2) AJAX DELETE
+      /*ajax delete*/
       cal.ajax(data, function () {
         if (this.response == "OK") {
           cal.hide();
